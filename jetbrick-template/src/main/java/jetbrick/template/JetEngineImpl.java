@@ -31,14 +31,13 @@ import jetbrick.template.resolver.GlobalResolver;
 import jetbrick.template.runtime.JetForIterator;
 import jetbrick.template.runtime.buildin.*;
 import jetbrick.util.PathUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 /**
  * 默认的模板引擎实现.(用户不可自己访问，由 JetEngine.create() 创建)
  */
 final class JetEngineImpl extends JetEngine {
-    private final Logger log = LoggerFactory.getLogger(JetEngineImpl.class);
+    private final Logger log = Logger.getLogger(JetEngineImpl.class);
 
     // 模板对象缓存
     private final ConcurrentMap<String, JetTemplate> cache = new ConcurrentHashMap<String, JetTemplate>(128);
@@ -53,9 +52,10 @@ final class JetEngineImpl extends JetEngine {
         this.loaders = config.getTemplateLoaders();
 
         // output log
-        log.info("JetEngine.version = {}", JetEngine.VERSION);
+        log.info(String.format("JetEngine.version = %s", JetEngine.VERSION));
         for (ResourceLoader loader : loaders) {
-            log.info("JetEngine.loader = {}, root = {}, reload = {}", loader.getClass().getName(), loader.getRoot(), loader.isReloadable());
+            log.info(String.format("JetEngine.loader = %s, root = %s, reload = %b",
+                    loader.getClass().getName(), loader.getRoot(), loader.isReloadable()));
         }
 
         // create globals

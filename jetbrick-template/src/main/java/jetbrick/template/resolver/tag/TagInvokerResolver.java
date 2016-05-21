@@ -25,8 +25,7 @@ import jetbrick.bean.MethodInfo;
 import jetbrick.template.JetAnnotations;
 import jetbrick.template.resolver.SignatureUtils;
 import jetbrick.template.runtime.JetTagContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +37,7 @@ import java.util.concurrent.ConcurrentMap;
  * 用于查找全局注册的 Tag.
  */
 public final class TagInvokerResolver {
-    private static final Logger log = LoggerFactory.getLogger(TagInvokerResolver.class);
+    private static final Logger log = Logger.getLogger(TagInvokerResolver.class);
 
     private final ConcurrentMap<String, TagInvoker> cache = new ConcurrentHashMap<String, TagInvoker>(64);
     private final Map<String, List<MethodInfo>> tagMap = new HashMap<String, List<MethodInfo>>(32);
@@ -58,7 +57,7 @@ public final class TagInvokerResolver {
                 }
             }
         }
-        log.info("import {} tags from {}", i, cls);
+        log.info(String.format("import %d tags from %s", i, cls));
     }
 
     /**
@@ -82,7 +81,7 @@ public final class TagInvokerResolver {
                 sb.append(parameterTypes[i].getName());
             }
             sb.append(')');
-            log.debug("import tag: {}", sb.toString());
+            log.debug(String.format("import tag: %s", sb.toString()));
         }
 
         List<MethodInfo> methods = tagMap.get(name);

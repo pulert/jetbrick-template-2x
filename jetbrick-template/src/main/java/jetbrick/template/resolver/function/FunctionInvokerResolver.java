@@ -24,8 +24,7 @@ import jetbrick.bean.KlassInfo;
 import jetbrick.bean.MethodInfo;
 import jetbrick.template.JetAnnotations;
 import jetbrick.template.resolver.SignatureUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +36,7 @@ import java.util.concurrent.ConcurrentMap;
  * 用于查找全局注册的扩展函数.
  */
 public final class FunctionInvokerResolver {
-    private static final Logger log = LoggerFactory.getLogger(FunctionInvokerResolver.class);
+    private static final Logger log = Logger.getLogger(FunctionInvokerResolver.class);
 
     private final ConcurrentMap<String, FunctionInvoker> cache = new ConcurrentHashMap<String, FunctionInvoker>(64);
     private final Map<String, List<MethodInfo>> functionMap = new HashMap<String, List<MethodInfo>>(32);
@@ -54,7 +53,7 @@ public final class FunctionInvokerResolver {
                 i++;
             }
         }
-        log.info("import {} functions from {}", i, cls);
+        log.info(String.format("import %d functions from %s", i, cls.getName()));
     }
 
     /**
@@ -78,7 +77,7 @@ public final class FunctionInvokerResolver {
                 sb.append(parameterTypes[i].getName());
             }
             sb.append(')');
-            log.debug("import function: {}", sb.toString());
+            log.debug(String.format("import function: %s", sb.toString()));
         }
 
         List<MethodInfo> methods = functionMap.get(name);

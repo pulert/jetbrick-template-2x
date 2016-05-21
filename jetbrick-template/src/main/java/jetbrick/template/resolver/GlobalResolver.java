@@ -33,14 +33,14 @@ import jetbrick.template.resolver.method.MethodInvokerResolver;
 import jetbrick.template.resolver.property.*;
 import jetbrick.template.resolver.tag.TagInvoker;
 import jetbrick.template.resolver.tag.TagInvokerResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
+
 
 /**
  * 负责解析模板中出现的 class, method, function, tag, macro 等等.
  */
 public final class GlobalResolver {
-    private static final Logger log = LoggerFactory.getLogger(GlobalResolver.class);
+    private static final Logger log = Logger.getLogger(GlobalResolver.class);
 
     private final ClassResolver classResolver;
     private final DefaultGetterResolver defaultGetterResolver;
@@ -76,7 +76,8 @@ public final class GlobalResolver {
         long ts = System.currentTimeMillis();
         Set<Class<?>> classes = ClassFinder.getClasses(packageNames, true, annotations, skipErrors);
 
-        log.info("Found {} annotated classes, time elapsed {} ms.", classes.size(), System.currentTimeMillis() - ts);
+        log.info(String.format("Found %d annotated classes, time elapsed %d ms.",
+                classes.size(), System.currentTimeMillis() - ts));
 
         for (Class<?> cls : classes) {
             for (Annotation anno : cls.getAnnotations()) {

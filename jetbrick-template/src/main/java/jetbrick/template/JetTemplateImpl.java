@@ -30,14 +30,13 @@ import jetbrick.template.parser.ast.AstDirectiveMacro;
 import jetbrick.template.parser.ast.AstTemplate;
 import jetbrick.template.resolver.macro.MacroResolver;
 import jetbrick.template.runtime.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 /**
  * 代表一个模板文件.
  */
 final class JetTemplateImpl implements JetTemplate {
-    private static final Logger log = LoggerFactory.getLogger(JetTemplateImpl.class);
+    private static final Logger log = Logger.getLogger(JetTemplateImpl.class);
 
     private final JetEngine engine;
     private final Resource resource;
@@ -97,7 +96,7 @@ final class JetTemplateImpl implements JetTemplate {
         char[] contents = resource.toCharArray(config.getInputEncoding());
         source = new Source(filename, contents);
 
-        log.info("Loading template: {}", filename);
+        log.info(String.format("Loading template: %s", filename));
 
         // create ctx
         ParserContext ctx = new ParserContext(engine.getGlobalResolver(), engine.getGlobalContext());

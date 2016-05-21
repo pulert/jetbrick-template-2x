@@ -32,6 +32,9 @@ import jetbrick.template.resolver.ParameterUtils;
 import jetbrick.template.runtime.InterpretContext;
 import jetbrick.template.runtime.JetWriter;
 import jetbrick.util.PathUtils;
+import org.apache.log4j.Logger;
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MessageFormatter;
 
 public final class JetFunctions {
     private static final SecureRandom RANDOM = new SecureRandom();
@@ -128,7 +131,12 @@ public final class JetFunctions {
     // ------------------------------------------------------------
 
     public static void debug(String format, Object... args) {
-        org.slf4j.LoggerFactory.getLogger("jetx.debug").info(format, args);
+        Logger logger = Logger.getLogger("jetx.debug");
+        for(Object arg : args){
+            format = format.replaceFirst("\\{\\}", arg.toString());
+        }
+
+        logger.info(format);
     }
 
 }

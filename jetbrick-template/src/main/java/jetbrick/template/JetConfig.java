@@ -19,15 +19,15 @@
  */
 package jetbrick.template;
 
-import java.nio.charset.Charset;
-import java.util.List;
-import java.util.Properties;
 import jetbrick.config.Config;
 import jetbrick.config.ConfigLoader;
 import jetbrick.template.loader.ClasspathResourceLoader;
 import jetbrick.template.loader.ResourceLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
+
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Properties;
 
 public final class JetConfig {
     public static final String DEFAULT_CONFIG_FILE = "classpath:/jetbrick-template.properties";
@@ -54,7 +54,8 @@ public final class JetConfig {
     public static final String TRIM_DIRECTIVE_COMMENTS_SUFFIX = "jetx.trim.directive.comments.suffix";
     public static final String IO_SKIPERRORS = "jetx.io.skiperrors";
 
-    private final Logger log = LoggerFactory.getLogger(JetConfig.class);
+    private final Logger log = Logger.getLogger(JetConfig.class);
+
     private List<String> importClasses;
     private List<String> importMethods;
     private List<String> importFunctions;
@@ -86,14 +87,14 @@ public final class JetConfig {
 
         if (configLocation != null) {
             try {
-                log.info("Loading config file: {}", configLocation);
+                log.info(String.format("Loading config file: %s", configLocation));
                 loader.load(configLocation);
             } catch (IllegalStateException e) {
                 // 默认配置文件允许不存在
                 if (!DEFAULT_CONFIG_FILE.equals(configLocation)) {
                     throw e;
                 }
-                log.warn("no default config file found: {}", DEFAULT_CONFIG_FILE);
+                log.warn(String.format("no default config file found: %s", DEFAULT_CONFIG_FILE));
             }
         }
 

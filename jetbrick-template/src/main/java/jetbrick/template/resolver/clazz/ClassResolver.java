@@ -24,14 +24,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import jetbrick.io.finder.FileFinder;
 import jetbrick.util.ClassLoaderUtils;
 import jetbrick.util.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 /**
  * 用于查找全局 import 的 class.
  */
 public final class ClassResolver {
-    private static final Logger log = LoggerFactory.getLogger(ClassResolver.class);
+    private static final Logger log = Logger.getLogger(ClassResolver.class);
 
     private final List<String> importedPackageList;
     private final Map<String, Class<?>> importedClassMap;
@@ -51,14 +50,14 @@ public final class ClassResolver {
         // import packages and children
         if (name.endsWith(".**")) {
             if (enableLogger) {
-                log.info("import package: {}", name);
+                log.info(String.format("import package: %s", name));
             }
             name = name.substring(0, name.length() - 3);
             for (String pkg : getPackages(name)) {
                 if (!importedPackageList.contains(pkg)) {
                     importedPackageList.add(pkg);
                     if (enableLogger) {
-                        log.info("found package: {}.*", pkg);
+                        log.info(String.format("found package: %s.*", pkg));
                     }
                 }
             }
@@ -71,7 +70,7 @@ public final class ClassResolver {
             if (!importedPackageList.contains(name)) {
                 importedPackageList.add(name);
                 if (enableLogger) {
-                    log.info("import package: {}.*", name);
+                    log.info(String.format("import package: %s.*", name));
                 }
             }
             return;
